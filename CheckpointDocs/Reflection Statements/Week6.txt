@@ -1,0 +1,5 @@
+I met with Carlos, and while I did not have a lot to go over, I got feedback on what material I did have. I also
+showed carlos the code in Python, and the React frontend of what I envision. It was incomplete, but along with the work that
+I had completed in Java, I feel like I created an okay picture for him.
+
+Time spent 2 hours
