@@ -7,7 +7,7 @@
             <div class="col-md-10"> <!--Main Body-->
                 <div class="card bg-default">
                     <h5 class="card-header">
-                        Home
+                        Cast And Climate
                     </h5>
                     <div class="card-body">
                         <p class="card-text">

@@ -1,4 +1,4 @@
-package fishing.guide.Controller;
+package com.fishing.guide.Controller;
 
 import java.io.*;
 import javax.servlet.*;
@@ -9,21 +9,21 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @WebServlet(
-        name = "guide",
-        urlPatterns = { "/guide" }
+        name = "profile",
+        urlPatterns = { "/profile" }
 )
 
-public class fishingGuide extends HttpServlet{
+public class profileManager extends HttpServlet{
 
     private final Logger logger = LogManager.getLogger(this.getClass());
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String url = "/fishingGuide.jsp";
+        String url = "/profile.jsp";
 
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-        logger.info("Logging the Guide forward!");
+        logger.info("Logging the profile forward!");
 
         dispatcher.forward(request, response);
     }

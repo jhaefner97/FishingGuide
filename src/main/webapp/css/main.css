@@ -1,0 +1,47 @@
+.logoImg {
+    width: 12em;
+    margin-bottom: 3em;
+}
+
+.ForecastData {
+    position: relative;
+    background-color: #f2f2f2; /* Light gray background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow */
+    padding: 15px; /* Padding around the list */
+    border-radius: 5px; /* Rounded corners */
+    list-style: none; /* No list-style */
+    margin: 0; /* Remove default margin */
+}
+
+.ForecastData li {
+    padding: 5px 0; /* Space between list items */
+    border-bottom: 1px solid #e0e0e0; /* Light gray border between items */
+    position: relative;
+}
+
+.ForecastData li:last-child {
+    border-bottom: none; /* Remove border from the last item */
+}
+
+.ForecastData li span {
+    font-weight: bold; /* Make the labels bold */
+}
+
+.popup-content {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    z-index: 10;
+    min-width: 200px; /* Set a minimum width */
+    min-height: 100px; /* Set a minimum height */
+    opacity: 1; /* Make sure it's fully opaque */
+}
+
+.ForecastData:hover .popup-content {
+    display: block;
+    opacity: 1;
+}

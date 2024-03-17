@@ -1,4 +1,4 @@
-package fishing.guide.Controller;
+package com.fishing.guide.Controller;
 
 import java.io.*;
 import javax.servlet.*;
