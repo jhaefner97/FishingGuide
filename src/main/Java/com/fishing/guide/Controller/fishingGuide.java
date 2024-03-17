@@ -9,6 +9,9 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
 import com.fishing.guide.Entity.DailyForecast;
+import com.fishing.guide.Entity.UserData;
+import com.fishing.guide.Entity.WeatherPackage;
+import com.persistence.database.GenericDao;
 import com.persistence.database.OpenWeatherDAO;
 import com.persistence.openWeather.OpenWeatherGeo;
 import org.apache.logging.log4j.LogManager;
@@ -20,11 +23,41 @@ import org.apache.logging.log4j.Logger;
 )
 
 public class fishingGuide extends HttpServlet {
-
+    GenericDao<UserData> userDataDao = new GenericDao<>(UserData.class);
     private final Logger logger = LogManager.getLogger(this.getClass());
+
+    public WeatherPackage buildWeatherPackage(String zipCode) {
+        OpenWeatherDAO openWeatherDao = new OpenWeatherDAO();
+        OpenWeatherGeo responseData = null;
+        String cityName = null;
+        try {
+            responseData = openWeatherDao.getLocationData(Integer.parseInt(zipCode));
+            cityName = responseData.getName();
+            logger.info("Show Results for " + responseData.getName());
+
+            List<DailyForecast> fiveDayForecast = openWeatherDao.buildDailyForecasts(responseData.getLat(), responseData.getLon());
+            if (fiveDayForecast != null) {
+                fiveDayForecast.sort(Comparator.comparing(DailyForecast::getDate));
+                logger.info("Five Day Forecast Set");
+            }
+            return new WeatherPackage(cityName, fiveDayForecast);
+
+        } catch (Exception e) {
+            logger.info("Errored rendering location data");
+            throw new RuntimeException(e);
+        }
+    }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+        String userGuid = (String) session.getAttribute("userName");
+        UserData user = userDataDao.getById(userGuid);
+
+        WeatherPackage responseWeatherPackage = buildWeatherPackage(user.getHomeZip());
+        request.setAttribute("cityName", responseWeatherPackage.getCityName());
+        request.setAttribute("fiveDayForecast", responseWeatherPackage.getFiveDayForecast());
 
         String url = "/fishingGuide.jsp";
 
@@ -43,24 +76,10 @@ public class fishingGuide extends HttpServlet {
 
         // Grab zipCode from context
         String zipCode = request.getParameter("zipCode");
-        OpenWeatherDAO openWeatherDao = new OpenWeatherDAO();
-        OpenWeatherGeo responseData = null;
-        try {
-            responseData = openWeatherDao.getLocationData(Integer.parseInt(zipCode));
-            request.setAttribute("cityName", responseData.getName());
-            logger.info("Show Results for " + responseData.getName());
+        WeatherPackage responseWeatherPackage = buildWeatherPackage(zipCode);
+        request.setAttribute("cityName", responseWeatherPackage.getCityName());
+        request.setAttribute("fiveDayForecast", responseWeatherPackage.getFiveDayForecast());
 
-            List<DailyForecast> fiveDayForecast = openWeatherDao.buildDailyForecasts(responseData.getLat(), responseData.getLon());
-            if (fiveDayForecast != null) {
-                fiveDayForecast.sort(Comparator.comparing(DailyForecast::getDate));
-                logger.info("Five Day Forecast Set");
-                request.setAttribute("fiveDayForecast", fiveDayForecast);
-            }
-
-        } catch (Exception e) {
-            logger.info("Errored rendering location data");
-            throw new RuntimeException(e);
-        }
         logger.info("Complete");
 
         String url = "/fishingGuide.jsp";

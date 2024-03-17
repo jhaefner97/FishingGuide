@@ -9,9 +9,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="logIn">Log In</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/guide">Fishing Guide</a>
-                </li>
             </c:when>
             <c:otherwise>
                 <li class="nav-item">

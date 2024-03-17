@@ -7,11 +7,18 @@
         <div class="col-md-10"> <!--Main Body-->
             <div class="card bg-default">
                 <h5 class="card-header">
-                    Your Profile
+                    Hello, ${user.firstName} ${user.lastName}
                 </h5>
                 <div class="card-body">
                     <p class="card-text">
-                        Card content
+                        First Name: ${user.firstName}
+                        <br>
+                        Last Name: ${user.lastName}
+                        <br>
+                        Email: ${user.email}
+                        <br>
+                        Home ZipCode: ${user.homeZip}
+                        <br>
                     </p>
                 </div>
             </div>

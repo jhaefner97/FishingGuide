@@ -7,6 +7,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fishing.guide.Entity.UserData;
+import com.fishing.guide.Entity.UserValidation;
 import com.fishing.guide.auth.*;
 import com.fishing.guide.util.PropertiesLoader;
 import com.persistence.database.GenericDao;
@@ -81,7 +82,8 @@ public class Auth extends HttpServlet implements PropertiesLoader {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String authCode = req.getParameter("code");
-        String userName = null;
+        UserValidation userValidation = null;
+        RequestDispatcher dispatcher;
 
         if (authCode == null) {
             //TODO forward to an error page or back to the login
@@ -89,10 +91,10 @@ public class Auth extends HttpServlet implements PropertiesLoader {
             HttpRequest authRequest = buildAuthRequest(authCode);
             try {
                 TokenResponse tokenResponse = getToken(authRequest);
-                userName = validate(tokenResponse);
+                userValidation = validate(tokenResponse);
 
                 HttpSession session = req.getSession();
-                session.setAttribute("userName", userName);
+                session.setAttribute("userName", userValidation.getUserGuid());
                 session.setAttribute("validated", true);
             } catch (IOException e) {
                 logger.error("Error getting or validating the token: " + e.getMessage(), e);
@@ -101,9 +103,15 @@ public class Auth extends HttpServlet implements PropertiesLoader {
                 logger.error("Error getting token from Cognito oauth url " + e.getMessage(), e);
                 //TODO forward to an error page
             }
+
+            assert userValidation != null;
+            if (!userValidation.isNewUser()){
+             dispatcher = req.getRequestDispatcher("index.jsp");
+        } else {
+             dispatcher = req.getRequestDispatcher("newUser.jsp");
         }
-        RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
         dispatcher.forward(req, resp);
+        }
 
     }
 
@@ -139,7 +147,7 @@ public class Auth extends HttpServlet implements PropertiesLoader {
      * @return
      * @throws IOException
      */
-    private String validate(TokenResponse tokenResponse) throws IOException {
+    private UserValidation validate(TokenResponse tokenResponse) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         CognitoTokenHeader tokenHeader = mapper.readValue(CognitoJWTParser.getHeader(tokenResponse.getIdToken()).toString(), CognitoTokenHeader.class);
 
@@ -176,25 +184,27 @@ public class Auth extends HttpServlet implements PropertiesLoader {
 
         // Verify the token
         DecodedJWT jwt = verifier.verify(tokenResponse.getIdToken());
-        String userName = jwt.getClaim("cognito:username").asString();
+        String userId = jwt.getClaim("cognito:username").asString();
         String email = jwt.getClaim("email").asString();
-        logger.debug("here's the username: " + userName);
+        logger.debug("here's the guid: " + userId);
 
         logger.debug("here are all the available claims: " + jwt.getClaims());
 
         GenericDao<UserData> dao = new GenericDao<>(UserData.class);
-        UserData user = dao.getById(userName);
+        UserData user = dao.getById(userId);
+        boolean newUser;
         if (user == null) {
             user = new UserData();
-            user.setUserId(userName);
+            user.setUserId(userId);
             user.setEmail(email);
             dao.insert(user);
             logger.debug("User not found, adding to db");
+            newUser = true;
         } else {
             logger.debug("User found in db");
+            newUser = false;
         }
-
-        return userName;
+        return new UserValidation(userId, newUser);
     }
 
     /** Create the auth url and use it to build the request.
