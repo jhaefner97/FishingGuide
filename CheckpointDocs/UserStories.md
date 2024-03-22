@@ -27,6 +27,12 @@ community of like-minded anglers.
 10. As a user, I want to access a detailed tutorial or help section in the app so that I can understand how to use all of 
 its features effectively.
 
+11. As a user, I want to be able to update and remove items from my favorite locations list so that I can keep it organized.
+
+12. As a user, I want a secure login, and want to be able to reset my password if I forget it.
+
+13. As a user, I want to be able to have a profile to store my information and preferences.
+
 ### MVP 1 Stories
 * 1
 * 2

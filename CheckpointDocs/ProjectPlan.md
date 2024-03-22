@@ -34,3 +34,13 @@ Develop and launch MVP1 of Cast And Climate to the public. Focus on core feature
 4. Collect User Feedback
 5. Fix bugs/Issues Identified from unit testing/user feedback
    
+
+##  Timeline
+1. Research and Planning
+2. Setup in AWS with RDS, Beanstalk, and Cognito: By week 6
+3. Personalized profile and location entry: By week 7
+4. Real-time weather data and moon phase integration: By week 10
+5. Fishing score calculation and favorite locations: By week 10
+6. CRUD operations for favorite locations: By week 11
+7. UI and UX improvements: By week 12
+8. Final testing and bug fixes: By week 14
