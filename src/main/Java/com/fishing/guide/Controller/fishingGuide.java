@@ -10,6 +10,7 @@ import javax.servlet.annotation.*;
 
 import com.fishing.guide.Entity.DailyForecast;
 import com.fishing.guide.Entity.UserData;
+import com.fishing.guide.Entity.UserSavedLocations;
 import com.fishing.guide.Entity.WeatherPackage;
 import com.persistence.database.GenericDao;
 import com.persistence.database.OpenWeatherDAO;
@@ -24,6 +25,7 @@ import org.apache.logging.log4j.Logger;
 
 public class fishingGuide extends HttpServlet {
     GenericDao<UserData> userDataDao = new GenericDao<>(UserData.class);
+    GenericDao<UserSavedLocations> locationsDAO = new GenericDao<>(UserSavedLocations.class);
     private final Logger logger = LogManager.getLogger(this.getClass());
 
     public WeatherPackage buildWeatherPackage(String zipCode) {
@@ -55,10 +57,18 @@ public class fishingGuide extends HttpServlet {
         String userGuid = (String) session.getAttribute("userName");
         UserData user = userDataDao.getById(userGuid);
 
-        WeatherPackage responseWeatherPackage = buildWeatherPackage(user.getHomeZip());
+        String zipCodeToSearch;
+        if (session.getAttribute("currentZipcode") == null || session.getAttribute("currentZipcode") == "") {
+            zipCodeToSearch = user.getHomeZip();
+            session.setAttribute("currentZipcode", zipCodeToSearch);
+        } else {
+            zipCodeToSearch = (String) session.getAttribute("currentZipcode");
+        }
+
+        WeatherPackage responseWeatherPackage = buildWeatherPackage(zipCodeToSearch);
         request.setAttribute("cityName", responseWeatherPackage.getCityName());
         request.setAttribute("fiveDayForecast", responseWeatherPackage.getFiveDayForecast());
-
+        request.setAttribute("newLocation", false);
         String url = "/fishingGuide.jsp";
 
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
@@ -76,11 +86,32 @@ public class fishingGuide extends HttpServlet {
 
         // Grab zipCode from context
         String zipCode = request.getParameter("zipCode");
-        WeatherPackage responseWeatherPackage = buildWeatherPackage(zipCode);
-        request.setAttribute("cityName", responseWeatherPackage.getCityName());
-        request.setAttribute("fiveDayForecast", responseWeatherPackage.getFiveDayForecast());
+        String saveLocation = request.getParameter("saveLocation");
+        if (zipCode != null && !zipCode.isEmpty()) {
+            if (saveLocation != null && zipCode != null) {
+                String userGuid = (String) session.getAttribute("userName");
+                UserData user = userDataDao.getById(userGuid);
+                UserSavedLocations newLocation = new UserSavedLocations();
+                newLocation.setZipCode(zipCode);
+                newLocation.setUserId(user);
+                if (locationsDAO.findByPropertyEqual("zipCode", zipCode).size() == 0) {
+                    locationsDAO.insert(newLocation);
+                    request.setAttribute("locationSaved", "Location has been saved!");
+                }
+                else {
+                    request.setAttribute("locationError", "ZipCode has already been saved!");
+                }
+            }
+            WeatherPackage responseWeatherPackage = buildWeatherPackage(zipCode);
+            request.setAttribute("cityName", responseWeatherPackage.getCityName());
+            request.setAttribute("fiveDayForecast", responseWeatherPackage.getFiveDayForecast());
 
-        logger.info("Complete");
+            if (locationsDAO.findByPropertyEqual("zipCode", zipCode).size() == 0) {
+                request.setAttribute("newLocation", true);
+            }
+            session.setAttribute("currentZipcode", zipCode);
+            logger.info("Complete");
+        }
 
         String url = "/fishingGuide.jsp";
 

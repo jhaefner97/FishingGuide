@@ -82,6 +82,31 @@ public class DailyForecast {
         this.precipitation = precipitation;
     }
 
+    public double calculateFishingScore() {
+        // Define weights for each attribute
+        double tempWeight = 0.25;
+        double avgPressureWeight = 0.25;
+        double pressureTrendWeight = 0.2;
+        double cloudCoverWeight = 0.15;
+        double precipitationWeight = 0.15;
+
+        // Calculate scores for each attribute
+        double tempScore = (highTemp >= 60 && highTemp <= 75) && (lowTemp >= 50 && lowTemp <= 65) ? 1 : 0;
+        double avgPressureScore = avgPressure >= 1013 && avgPressure <= 1020 ? 1 : 0;
+        double pressureTrendScore = "Rising".equals(pressureTrend) ? 1 : 0;
+        double cloudCoverScore = cloudCover >= 40 && cloudCover <= 80 ? 1 : 0;
+        double precipitationScore = precipitation >= 0 && precipitation <= 0.2 ? 1 : 0;
+
+        // Calculate total score
+        double totalScore = (tempScore * tempWeight) +
+                (avgPressureScore * avgPressureWeight) +
+                (pressureTrendScore * pressureTrendWeight) +
+                (cloudCoverScore * cloudCoverWeight) +
+                (precipitationScore * precipitationWeight);
+
+        return Double.parseDouble(String.format("%.1f", totalScore * 10));
+    }
+
     @Override
     public String toString() {
         return "DailyForecast{" +

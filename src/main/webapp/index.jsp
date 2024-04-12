@@ -5,17 +5,10 @@
         <div class="row">
             <%@include file="nav.jsp"%> <!--Nav-->
             <div class="col-md-10"> <!--Main Body-->
-                <div class="card bg-default">
-                    <h5 class="card-header">
-                        Cast And Climate
-                    </h5>
-                    <div class="card-body">
-                        <p class="card-text">
-                            Card content
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        Card footer
+                <div class="row">
+                    <div class="col" id="Greeting">
+                        <img src="images/unsplash-mountains.jpg" alt="mountains" style="width: 100%;">
+                        <h2 class="header-text">Welcome to Cast and Climate</h2>
                     </div>
                 </div>
             </div>

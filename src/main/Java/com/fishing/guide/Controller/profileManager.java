@@ -6,6 +6,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
 import com.fishing.guide.Entity.UserData;
+import com.fishing.guide.Entity.UserSavedLocations;
 import com.fishing.guide.Entity.UserValidation;
 import com.persistence.database.GenericDao;
 import org.apache.logging.log4j.LogManager;
@@ -18,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 public class profileManager extends HttpServlet{
     GenericDao<UserData> userDataDao = new GenericDao<>(UserData.class);
-
+    GenericDao<UserSavedLocations> locationDAO = new GenericDao<>(UserSavedLocations.class);
     private final Logger logger = LogManager.getLogger(this.getClass());
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -54,6 +55,10 @@ public class profileManager extends HttpServlet{
         user.setHomeZip(zipCode);
 
         userDataDao.update(user);
+        UserSavedLocations homeLocation = new UserSavedLocations();
+        homeLocation.setUserId(user);
+        homeLocation.setZipCode(zipCode);
+        locationDAO.insert(homeLocation);
 
 
         String url = "/index.jsp";

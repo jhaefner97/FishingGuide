@@ -1,7 +1,9 @@
 package com.persistence.openWeather;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Rain{
 
 	@JsonProperty("3h")

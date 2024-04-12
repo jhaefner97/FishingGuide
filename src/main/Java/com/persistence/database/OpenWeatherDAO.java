@@ -90,7 +90,7 @@ public class OpenWeatherDAO implements PropertiesLoader {
 
             List<ListItem> forecasts = entry.getValue();
             for (ListItem forecast : forecasts) {
-                double temp = (double) forecast.getMain().getTemp();
+                double temp = forecast.getMain().getTemp();
                 highTemp = Math.max(highTemp, temp);
                 lowTemp = Math.min(lowTemp, temp);
 
@@ -119,7 +119,7 @@ public class OpenWeatherDAO implements PropertiesLoader {
             dailyForecast.setAvgPressure(avgPressure);
             dailyForecast.setPressureTrend(pressureTrend);
             dailyForecast.setCloudCover(avgCloudCover);
-            dailyForecast.setPrecipitation(totalPrecipitation);
+            dailyForecast.setPrecipitation(totalPrecipitation / 25.4);
 
             dailyForecasts.add(dailyForecast);
         }

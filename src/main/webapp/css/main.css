@@ -27,21 +27,30 @@
     font-weight: bold; /* Make the labels bold */
 }
 
-.popup-content {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: white;
-    border: 1px solid #ddd;
-    padding: 10px;
-    z-index: 10;
-    min-width: 200px; /* Set a minimum width */
-    min-height: 100px; /* Set a minimum height */
-    opacity: 1; /* Make sure it's fully opaque */
+#Greeting {
+    position: relative;
+    display: inline-block;
 }
 
-.ForecastData:hover .popup-content {
-    display: block;
-    opacity: 1;
+.header-text {
+    position: absolute;
+    top: 13em;
+    left: 14em;
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+    font-family: sans-serif;
+    text-shadow: black 2px 3px;
+}
+
+.container-fluid {
+    background-color: #F1FFFA;
+}
+
+body {
+    background-color: #F1FFFA;
+}
+
+#fishingGuideCard {
+    margin-top: 2em;
 }

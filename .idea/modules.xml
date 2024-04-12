@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FishingGuide.iml" filepath="$PROJECT_DIR$/FishingGuide.iml" />
+      <module fileurl="file://$PROJECT_DIR$/castAndClimate.iml" filepath="$PROJECT_DIR$/castAndClimate.iml" />
     </modules>
   </component>
 </project>

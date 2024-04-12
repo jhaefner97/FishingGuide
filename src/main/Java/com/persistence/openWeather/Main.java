@@ -1,11 +1,13 @@
 package com.persistence.openWeather;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Main{
 
 	@JsonProperty("temp")
-	private Object temp;
+	private Double temp;
 
 	@JsonProperty("temp_min")
 	private Object tempMin;
@@ -31,11 +33,11 @@ public class Main{
 	@JsonProperty("temp_max")
 	private Object tempMax;
 
-	public void setTemp(Object temp){
+	public void setTemp(Double temp){
 		this.temp = temp;
 	}
 
-	public Object getTemp(){
+	public Double getTemp(){
 		return temp;
 	}
 
