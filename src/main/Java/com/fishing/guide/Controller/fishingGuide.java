@@ -1,7 +1,9 @@
 package com.fishing.guide.Controller;
 
 import java.io.*;
+import java.time.*;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.servlet.*;
@@ -88,20 +90,7 @@ public class fishingGuide extends HttpServlet {
         String zipCode = request.getParameter("zipCode");
         String saveLocation = request.getParameter("saveLocation");
         if (zipCode != null && !zipCode.isEmpty()) {
-            if (saveLocation != null && zipCode != null) {
-                String userGuid = (String) session.getAttribute("userName");
-                UserData user = userDataDao.getById(userGuid);
-                UserSavedLocations newLocation = new UserSavedLocations();
-                newLocation.setZipCode(zipCode);
-                newLocation.setUserId(user);
-                if (locationsDAO.findByPropertyEqual("zipCode", zipCode).size() == 0) {
-                    locationsDAO.insert(newLocation);
-                    request.setAttribute("locationSaved", "Location has been saved!");
-                }
-                else {
-                    request.setAttribute("locationError", "ZipCode has already been saved!");
-                }
-            }
+
             WeatherPackage responseWeatherPackage = buildWeatherPackage(zipCode);
             request.setAttribute("cityName", responseWeatherPackage.getCityName());
             request.setAttribute("fiveDayForecast", responseWeatherPackage.getFiveDayForecast());
@@ -110,6 +99,26 @@ public class fishingGuide extends HttpServlet {
                 request.setAttribute("newLocation", true);
             }
             session.setAttribute("currentZipcode", zipCode);
+
+            if (saveLocation != null && zipCode != null) {
+                String userGuid = (String) session.getAttribute("userName");
+                UserData user = userDataDao.getById(userGuid);
+                UserSavedLocations newLocation = new UserSavedLocations();
+                ZonedDateTime now = ZonedDateTime.now();
+                newLocation.setZipCode(zipCode);
+                newLocation.setUserId(user);
+                newLocation.setDateSaved(now);
+                newLocation.setLocationAlias(responseWeatherPackage.getCityName());
+                if (locationsDAO.findByPropertyEqual("zipCode", zipCode).size() == 0) {
+                    locationsDAO.insert(newLocation);
+                    request.setAttribute("locationSaved", "Location has been saved!");
+                }
+                else {
+                    request.setAttribute("locationError", "ZipCode has already been saved!");
+                }
+            }
+
+
             logger.info("Complete");
         }
 

@@ -5,12 +5,12 @@
 
 .ForecastData {
     position: relative;
-    background-color: #f2f2f2; /* Light gray background */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow */
-    padding: 15px; /* Padding around the list */
-    border-radius: 5px; /* Rounded corners */
-    list-style: none; /* No list-style */
-    margin: 0; /* Remove default margin */
+    background-color: #f2f2f2;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    border-radius: 5px;
+    list-style: none;
+    margin: 0;
 }
 
 .ForecastData li {

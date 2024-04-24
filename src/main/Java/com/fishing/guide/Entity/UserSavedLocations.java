@@ -3,6 +3,8 @@ package com.fishing.guide.Entity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.time.*;
+
 @Entity
 @Table(name = "UserSavedLocations")
 public class UserSavedLocations {
@@ -18,6 +20,12 @@ public class UserSavedLocations {
 
     @Column(name = "ZipCode")
     private String zipCode;
+
+    @Column(name = "LocationAlias")
+    private String locationAlias;
+
+    @Column(name = "DateSaved")
+    private ZonedDateTime dateSaved;
 
     public int getId() {
         return Id;
@@ -50,5 +58,21 @@ public class UserSavedLocations {
                 ", userId=" + userId +
                 ", zipCode='" + zipCode + '\'' +
                 '}';
+    }
+
+    public String getLocationAlias() {
+        return locationAlias;
+    }
+
+    public void setLocationAlias(String locationAlias) {
+        this.locationAlias = locationAlias;
+    }
+
+    public ZonedDateTime getDateSaved() {
+        return dateSaved;
+    }
+
+    public void setDateSaved(ZonedDateTime dateSaved) {
+        this.dateSaved = dateSaved;
     }
 }

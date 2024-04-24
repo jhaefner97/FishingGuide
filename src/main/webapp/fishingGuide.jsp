@@ -2,16 +2,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <html>
 <body>
-<script>
-    $(document).ready(function() {
-        <c:if test="${not empty locationError}">
-        alert('${locationError}');
-        </c:if>
-        <c:if test="${not empty locationSaved}">
-        alert('${locationSaved}');
-        </c:if>
-    });
-</script>
 <div class="container-fluid">
     <div class="row">
         <%@include file="nav.jsp" %>
@@ -62,13 +52,19 @@
 </div>
 <script>
     $(document).ready(function() {
-        $("form").submit(function(event) {
+        $("form").submit(function (event) {
             var zipCode = $("#zipCode").val();
             if (zipCode == "") {
                 event.preventDefault(); // Prevent the form from submitting
                 alert("Zip Code must be filled out");
             }
         });
+        <c:if test="${not empty locationError}">
+        alert('${locationError}');
+        </c:if>
+        <c:if test="${not empty locationSaved}">
+        alert('${locationSaved}');
+        </c:if>
     });
 </script>
 </script>
