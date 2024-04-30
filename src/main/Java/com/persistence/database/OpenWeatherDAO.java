@@ -4,9 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fishing.guide.Entity.DailyForecast;
 import com.fishing.guide.util.PropertiesLoader;
+import com.fishing.guide.util.Utilities;
 import com.persistence.openWeather.ListItem;
 import com.persistence.openWeather.OpenWeatherForecastData;
 import com.persistence.openWeather.OpenWeatherGeo;
+import jdk.jshell.execution.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 
 public class OpenWeatherDAO implements PropertiesLoader {
     private final Logger logger = LogManager.getLogger(this.getClass());
+    private Utilities utils = new Utilities();
 
     private String getApiKey() throws Exception {
         Properties properties = loadProperties("/secrets.properties");
@@ -78,7 +81,7 @@ public class OpenWeatherDAO implements PropertiesLoader {
                 .stream().collect(Collectors.groupingBy(forecast -> forecast.getDtTxt().split(" ")[0]));
 
         for (Map.Entry<String, List<ListItem>> entry : groupedForecastsByDate.entrySet()) {
-            String date = entry.getKey();  // Date string
+            String date = entry.getKey();
             double highTemp = Double.MIN_VALUE;
             double lowTemp = Double.MAX_VALUE;
             double totalPressure = 0;

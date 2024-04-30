@@ -1,36 +1,36 @@
-<%@include file="head.jsp"%> <!-- -->
+<%@include file="head.jsp"%>
 <html>
 <body>
 
-<!--Edit Profile MODAL--->
-<div class="modal" tabindex="-1" role="dialog" id="editProfileModal">
+<!-- Edit Profile Modal -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit User Profile</h5>
+                <h5 class="modal-title" id="editProfileModalLabel">Edit User Profile</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="editProfileForm" novalidate>
+            <form id="editProfileForm" class="needs-validation" novalidate>
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="newFirstName">First Name:</label>
-                        <input type="text" class="form-control" value="${user.firstName}" id="newFirstName" required>
+                        <input type="text" class="form-control" id="newFirstName" value="${user.firstName}" required placeholder="Enter first name">
                         <div class="invalid-feedback">
-                            Please enter a first name.
+                            First name is required.
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="newLastName">Last Name:</label>
-                        <input type="text" class="form-control" value="${user.lastName}" id="newLastName" required>
+                        <input type="text" class="form-control" id="newLastName" value="${user.lastName}" required placeholder="Enter last name">
                         <div class="invalid-feedback">
-                            Please enter a last name.
+                            Last name is required.
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="newZipCode">Home Zipcode:</label>
-                        <input type="text" class="form-control" value="${user.homeZip}" id="newZipCode" pattern="\d{5}" required>
+                        <input type="text" class="form-control" id="newZipCode" value="${user.homeZip}" pattern="\d{5}" required placeholder="Enter 5-digit zipcode">
                         <div class="invalid-feedback">
                             Please enter a valid 5-digit zipcode.
                         </div>
@@ -45,20 +45,19 @@
     </div>
 </div>
 
-<!--Edit Location MODAL--->
-<div class="modal" tabindex="-1" role="dialog" id="editLocationModal">
+<!-- Edit Location Modal -->
+<div class="modal fade" id="editLocationModal" tabindex="-1" role="dialog" aria-labelledby="editLocationModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Location</h5>
+                <h5 class="modal-title" id="editLocationModalLabel">Edit Location</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Enter a nickname for this location!</p>
-                <label for="newLocationName">Location Name:</label>
-                <input type="text" placeholder="New Location Name" id="newLocationName">
+                <p>Enter a nickname for this location:</p>
+                <input type="text" class="form-control" id="newLocationName" placeholder="New Location Name">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" id="editLocationButton" data-id="${location.id}">Edit Location</button>
@@ -68,12 +67,12 @@
     </div>
 </div>
 
-<!--DELETE MODAL--->
-<div class="modal" tabindex="-1" role="dialog" id="deleteModal">
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Delete Location</h5>
+                <h5 class="modal-title" id="deleteModalLabel">Delete Location</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -91,48 +90,36 @@
 
 <div class="container-fluid">
     <div class="row">
-        <%@include file="nav.jsp"%> <!--Nav-->
+        <%@include file="nav.jsp"%> <!-- Navigation bar included here -->
 
-        <!--User Data-->
-        <div class="col-md-4"> <!--Main Body-->
-            <div class="card bg-default">
-                <div class="card-header">
-                    <h5>
-                        Hello, ${user.firstName} ${user.lastName}
-                        <i class="bi bi-pencil" style="margin-left:1em" id="editProfile"></i>
-                    </h5>
-
-                </div>
+        <!-- User Data -->
+        <div class="col-12 col-md-5"> <!-- Adjusted for equal width on medium to large screens -->
+            <div class="card bg-light mb-3"> <!-- Added background color and margin for better spacing -->
+                <div class="card-header">Hello, ${user.firstName} ${user.lastName}</div>
                 <div class="card-body">
                     <p class="card-text">
-                        First Name: ${user.firstName}
-                        <br>
-                        Last Name: ${user.lastName}
-                        <br>
-                        Email: ${user.email}
-                        <br>
+                        First Name: ${user.firstName}<br>
+                        Last Name: ${user.lastName}<br>
+                        Email: ${user.email}<br>
                         Home ZipCode: ${user.homeZip}
-                        <br>
                     </p>
+                    <button class="btn btn-primary" id="editProfile">Edit Profile</button> <!-- Added a button for direct interaction -->
                 </div>
             </div>
         </div>
 
-        <!--Saved Locations-->
-        <c:if test="${not empty user.savedLocations}">
-        <div class="col-md-6">
-            <div class="card bg-default">
-                <h5 class="card-header">
-                    Saved Locations
-                </h5>
+        <!-- Saved Locations -->
+        <div class="col-12 col-md-5"> <!-- Same adjustment for consistent layout -->
+            <div class="card bg-light mb-3">
+                <div class="card-header">Saved Locations</div>
                 <div class="card-body">
-                    <table class="table table-striped">
+                    <table class="table table-responsive-sm">
                         <thead>
                         <tr>
                             <th>Zip Code</th>
                             <th>Nickname</th>
                             <th>Date Saved</th>
-                            <th></th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -142,20 +129,18 @@
                                 <td>${location.locationAlias}</td>
                                 <td>${location.dateSaved}</td>
                                 <td>
-                                    <i class="bi bi-pencil edit-icon" style="margin-right:0.5em;" data-id="${location.id}"></i>
-                                    <i class="bi bi-trash delete-icon" data-id="${location.id}"></i>
+                                    <i class="bi bi-pencil edit-icon" style="cursor:pointer; margin-right:0.5em;" data-id="${location.id}"></i>
+                                    <i class="bi bi-trash delete-icon" style="cursor:pointer;" data-id="${location.id}"></i>
                                 </td>
                             </tr>
                         </c:forEach>
-
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        </c:if>
     </div>
-    <%@include file="footer.jsp"%> <!--Footer-->
+    <%@include file="footer.jsp"%> <!-- Footer included here -->
 </div>
 
 <script>
@@ -183,7 +168,7 @@
                 };
 
                 $.ajax({
-                    url: '/castAndClimate_war/profile',
+                    url: '${pageContext.request.contextPath}/profile',
                     type: 'POST',
                     data: formData,
                     success: function() {
@@ -214,9 +199,10 @@
         var locationId = $(this).data('id');
 
         $.ajax({
-            url: '/castAndClimate_war/profile',
+            url: '${pageContext.request.contextPath}/profile',
             type: 'POST',
-            data: { locationId: locationId },
+            data: { locationId: locationId,
+                    action: "deleteLocation"},
             success: function(response) {
                 $('#deleteModal').modal('hide');
                 alert('Location deleted successfully!');
@@ -243,11 +229,12 @@
             var newLocationName = $('#newLocationName').val();
 
             $.ajax({
-                url: '/castAndClimate_war/profile', // Endpoint for updating a location
+                url: '${pageContext.request.contextPath}/profile', // Endpoint for updating a location
                 method: 'POST',
                 data: {
                     editLocationId: locationId,
-                    newLocationName: newLocationName
+                    newLocationName: newLocationName,
+                    action: "editLocation"
                 },
                 success: function(response) {
                     alert('Location updated successfully');

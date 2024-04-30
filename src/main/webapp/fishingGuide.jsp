@@ -6,10 +6,7 @@
     <div class="row">
         <%@include file="nav.jsp" %>
         <div class="col-md-10">
-            <div class="card bg-default" id="fishingGuideCard">
-                <div class="card-header">
-                    <h5>Weather Analysis</h5>
-                </div>
+            <div class="card bg-light" id="fishingGuideCard">
                 <div class="card-body">
                     <form action="${pageContext.request.contextPath}/guide" method="POST" onsubmit="validateForm()">
                         <div class="form-group row">
@@ -26,20 +23,22 @@
                         </div>
                     </form>
                     <c:if test="${not empty cityName}">
-                        <h5>Results for ${cityName}!</h5>
-                        <div class="row">
+                        <h5>Results for ${cityName}</h5>
+                        <div class="row row-cols-md-3 g-2">
                             <c:forEach var="forecast" items="${fiveDayForecast}">
-                                <div class="col-md-2">
-                                    <h5>Fishing Score: <fmt:formatNumber value="${forecast.calculateFishingScore()}" pattern="#.#"/></h5>
-                                    <ul class="ForecastData">
-                                        <li><span>Date:</span> ${forecast.date}</li>
-                                        <li><span>Temp High:</span> <fmt:formatNumber value="${forecast.highTemp}" pattern="#"/>&#8457;</li>
-                                        <li><span>Temp Low:</span> <fmt:formatNumber value="${forecast.lowTemp}" pattern="#"/>&#8457;</li>
-                                        <li><span>Avg Pressure:</span> <fmt:formatNumber value="${forecast.avgPressure}" pattern="#.##"/> hPa</li>
-                                        <li><span>Pressure Trend:</span> ${forecast.pressureTrend}</li>
-                                        <li><span>Clouds</span> <fmt:formatNumber value="${forecast.cloudCover}" pattern="#"/>%</li>
-                                        <li><span>Precip:</span> <fmt:formatNumber value="${forecast.precipitation}" pattern="#.##"/>"</li>
-                                    </ul>
+                                <div class="col">
+                                    <div class="card mb-3">
+                                        <h6 class="card-header bg-secondary text-white">${forecast.formattedDate()}</h6>
+                                        <ul class="ForecastData card-body">
+                                            <li><span>Temp High:</span> <fmt:formatNumber value="${forecast.highTemp}" pattern="#"/>&#8457;</li>
+                                            <li><span>Temp Low:</span> <fmt:formatNumber value="${forecast.lowTemp}" pattern="#"/>&#8457;</li>
+                                            <li><span>Avg Pressure:</span> <fmt:formatNumber value="${forecast.avgPressure}" pattern="#.##"/> hPa</li>
+                                            <li><span>Pressure Trend:</span> ${forecast.pressureTrend}</li>
+                                            <li><span>Clouds</span> <fmt:formatNumber value="${forecast.cloudCover}" pattern="#"/>%</li>
+                                            <li><span>Precip:</span> <fmt:formatNumber value="${forecast.precipitation}" pattern="#.##"/>"</li>
+                                        </ul>
+                                        <h5 class="card-footer ${forecast.forecastColor()} text-white">Fishing Score: <fmt:formatNumber value="${forecast.calculateFishingScore()}" pattern="#.#"/></h5>
+                                    </div>
                                 </div>
                             </c:forEach>
                         </div>

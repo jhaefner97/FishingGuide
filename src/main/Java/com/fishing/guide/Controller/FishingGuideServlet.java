@@ -14,6 +14,7 @@ import com.fishing.guide.Entity.DailyForecast;
 import com.fishing.guide.Entity.UserData;
 import com.fishing.guide.Entity.UserSavedLocations;
 import com.fishing.guide.Entity.WeatherPackage;
+import com.fishing.guide.util.Utilities;
 import com.persistence.database.GenericDao;
 import com.persistence.database.OpenWeatherDAO;
 import com.persistence.openWeather.OpenWeatherGeo;
@@ -25,7 +26,7 @@ import org.apache.logging.log4j.Logger;
         urlPatterns = { "/guide" }
 )
 
-public class fishingGuide extends HttpServlet {
+public class FishingGuideServlet extends HttpServlet {
     GenericDao<UserData> userDataDao = new GenericDao<>(UserData.class);
     GenericDao<UserSavedLocations> locationsDAO = new GenericDao<>(UserSavedLocations.class);
     private final Logger logger = LogManager.getLogger(this.getClass());
