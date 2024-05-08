@@ -1,4 +1,4 @@
-package com.fishing.guide.Controller;
+package com.fishing.guide.controller;
 
 
 import com.auth0.jwt.JWT;
@@ -6,8 +6,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fishing.guide.Entity.UserData;
-import com.fishing.guide.Entity.UserValidation;
+import com.fishing.guide.entity.UserData;
+import com.fishing.guide.entity.UserValidation;
 import com.fishing.guide.auth.*;
 import com.fishing.guide.util.PropertiesLoader;
 import com.persistence.database.GenericDao;

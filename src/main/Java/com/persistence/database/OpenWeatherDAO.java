@@ -2,13 +2,12 @@ package com.persistence.database;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fishing.guide.Entity.DailyForecast;
+import com.fishing.guide.entity.DailyForecast;
 import com.fishing.guide.util.PropertiesLoader;
 import com.fishing.guide.util.Utilities;
 import com.persistence.openWeather.ListItem;
 import com.persistence.openWeather.OpenWeatherForecastData;
 import com.persistence.openWeather.OpenWeatherGeo;
-import jdk.jshell.execution.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

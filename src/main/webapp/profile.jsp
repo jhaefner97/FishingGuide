@@ -89,12 +89,12 @@
 </div>
 
 <div class="container-fluid">
-    <div class="row">
+    <div class="row just">
         <%@include file="nav.jsp"%> <!-- Navigation bar included here -->
 
-        <!-- User Data -->
-        <div class="col-12 col-md-5"> <!-- Adjusted for equal width on medium to large screens -->
-            <div class="card bg-light mb-3"> <!-- Added background color and margin for better spacing -->
+
+        <div class="col-12 col-md-10 justify-content-center">
+            <div class="card bg-light mt-3 mb-3"> <!-- Added background color and margin for better spacing -->
                 <div class="card-header">Hello, ${user.firstName} ${user.lastName}</div>
                 <div class="card-body">
                     <p class="card-text">
@@ -106,10 +106,6 @@
                     <button class="btn btn-primary" id="editProfile">Edit Profile</button> <!-- Added a button for direct interaction -->
                 </div>
             </div>
-        </div>
-
-        <!-- Saved Locations -->
-        <div class="col-12 col-md-5"> <!-- Same adjustment for consistent layout -->
             <div class="card bg-light mb-3">
                 <div class="card-header">Saved Locations</div>
                 <div class="card-body">
@@ -225,11 +221,11 @@
     });
     $(document).ready(function() {
         $('#editLocationButton').click(function() {
-            var locationId = $(this).data('id'); // Assuming you set this correctly when showing the modal
+            var locationId = $(this).data('id');
             var newLocationName = $('#newLocationName').val();
 
             $.ajax({
-                url: '${pageContext.request.contextPath}/profile', // Endpoint for updating a location
+                url: '${pageContext.request.contextPath}/profile',
                 method: 'POST',
                 data: {
                     editLocationId: locationId,

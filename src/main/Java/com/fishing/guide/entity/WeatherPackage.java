@@ -1,4 +1,4 @@
-package com.fishing.guide.Entity;
+package com.fishing.guide.entity;
 
 import java.util.List;
 

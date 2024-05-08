@@ -1,4 +1,4 @@
-package com.fishing.guide.Entity;
+package com.fishing.guide.entity;
 
 import com.fishing.guide.util.Utilities;
 import com.persistence.openWeather.ListItem;

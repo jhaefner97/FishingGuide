@@ -1,4 +1,4 @@
-package com.fishing.guide.Entity;
+package com.fishing.guide.entity;
 
 /**
  * Represents the validation status of a user within the system. This class

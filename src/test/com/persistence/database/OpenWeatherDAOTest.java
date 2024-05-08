@@ -1,6 +1,6 @@
 package com.persistence.database;
 
-import com.fishing.guide.Entity.DailyForecast;
+import com.fishing.guide.entity.DailyForecast;
 import com.persistence.openWeather.OpenWeatherForecastData;
 import com.persistence.openWeather.OpenWeatherGeo;
 import org.junit.jupiter.api.*;

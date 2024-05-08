@@ -1,4 +1,4 @@
-package com.fishing.guide.Controller;
+package com.fishing.guide.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.RequestDispatcher;
 
-import com.fishing.guide.Entity.UserData;
-import com.fishing.guide.Entity.UserSavedLocations;
+import com.fishing.guide.entity.UserData;
+import com.fishing.guide.entity.UserSavedLocations;
 import com.persistence.database.GenericDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -90,6 +90,9 @@ public class ProfileManagerServlet extends HttpServlet {
             case "updateProfile":
                 updateProfile(request, response, userGuid);
                 break;
+            case "createUser":
+                createProfile(request, response, userGuid);
+                break;
             default:
                 logger.error("Unrecognized action: {}", action);
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Action not recognized");
@@ -141,5 +144,15 @@ public class ProfileManagerServlet extends HttpServlet {
         logger.info("Profile updated for user: {}", userGuid);
 
         request.getRequestDispatcher("/profile.jsp").forward(request, response);
+    }
+
+    private void createProfile(HttpServletRequest request, HttpServletResponse response, String userGuid)
+        throws ServletException, IOException {
+        UserData user = userDataDao.getById(userGuid);
+        user.setFirstName(request.getParameter("firstName"));
+        user.setLastName(request.getParameter("lastName"));
+        user.setHomeZip(request.getParameter("homeZip"));
+        userDataDao.update(user);
+        logger.info("Profile created for user: {}", userGuid);
     }
 }

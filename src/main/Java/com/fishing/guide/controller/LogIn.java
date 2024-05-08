@@ -1,4 +1,4 @@
-package com.fishing.guide.Controller;
+package com.fishing.guide.controller;
 
 import com.fishing.guide.util.PropertiesLoader;
 import org.apache.logging.log4j.LogManager;

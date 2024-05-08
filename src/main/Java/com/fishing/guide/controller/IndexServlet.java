@@ -1,4 +1,4 @@
-package com.fishing.guide.Controller;
+package com.fishing.guide.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
